@@ -3,125 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محلل الموجات الصوتية للمواقع الأثرية</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-    <header class="bg-dark text-white text-center p-3">
-        <h1>محلل الموجات الصوتية للمواقع الأثرية</h1>
-        <p>مشروع للحفاظ على المواقع التراثية المصرية باستخدام الفيزياء والكود</p>
-    </header>
-
-    <section class="container mt-5">
-        <h2>نبذة عن المشروع</h2>
-        <p>
-            يهدف هذا المشروع إلى تطوير أداة تحليل الموجات الصوتية لدراسة سلوك الموجات الصوتية داخل المواقع الأثرية المصرية. 
-            باستخدام النماذج الفيزيائية وطرق تحليل الصوت، يمكن تحديد التشوهات الصوتية التي قد تشير إلى مشكلات هيكلية 
-            أو مميزات معمارية مميزة.
-        </p>
-    </section>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نماذج المحاكاة</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>محلل الموجات الصوتية للمواقع التاريخية</title>
     <style>
         body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            background-color: #f4f4f4;
             margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            font-size: 2em;
+        }
+        section {
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
         }
         canvas {
-            display: block;
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div id="canvas-container"></div>
 
-    <script>
-        let scene = new THREE.Scene();
-        let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        let renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+<header>
+    محلل الموجات الصوتية للمواقع التاريخية
+</header>
 
-        // Sample object representing a historical site
-        let geometry = new THREE.BoxGeometry(10, 10, 10);
-        let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        let cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
+<section>
+    <h2>كيف يعمل المشروع</h2>
+    <p>
+        هذا المشروع يستخدم تقنيات تحليل الموجات الصوتية لفحص التفاعلات الصوتية في المواقع التاريخية في مصر. يمكنك إدخال البيانات المتعلقة بالهيكل،
+        مثل الأبعاد والمواد المستخدمة، لتحليل كيفية انتشار الموجات الصوتية واكتشاف الأنماط الصوتية الفريدة.
+    </p>
+    <p>انقر على الزر أدناه لرؤية المحاكاة.</p>
+    <button onclick="runSimulation()">تشغيل المحاكاة</button>
+</section>
 
-        camera.position.z = 20;
+<section>
+    <h2>المحاكاة</h2>
+    <canvas id="waveCanvas" width="600" height="400"></canvas>
+</section>
 
-        function animate() {
-            requestAnimationFrame(animate);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            renderer.render(scene, camera);
+<footer>
+    مشروع فريد لتحليل المواقع الأثرية باستخدام الفيزياء والبرمجيات
+</footer>
+
+<script>
+    function runSimulation() {
+        const canvas = document.getElementById('waveCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let wavePosition = 0;
+        const waveSpeed = 2;
+
+        function drawWave() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // رسم الجدران الجانبية للهيكل
+            ctx.fillStyle = '#888';
+            ctx.fillRect(50, 50, 20, 300); // الجدار الأيسر
+            ctx.fillRect(530, 50, 20, 300); // الجدار الأيمن
+
+            // رسم الموجة الصوتية
+            ctx.beginPath();
+            ctx.moveTo(50, canvas.height / 2);
+            for (let x = 50; x < canvas.width - 50; x++) {
+                const y = 200 + Math.sin((x + wavePosition) * 0.05) * 50;
+                ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            wavePosition += waveSpeed;
+
+            // استمرار تشغيل المحاكاة
+            requestAnimationFrame(drawWave);
         }
-        animate();
-    </script>
+
+        drawWave();
+    }
+</script>
+
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نماذج المحاكاة</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-        }
-        canvas {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <div id="canvas-container"></div>
-
-    <script>
-        let scene = new THREE.Scene();
-        let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        let renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-        // Sample object representing a historical site
-        let geometry = new THREE.BoxGeometry(10, 10, 10);
-        let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        let cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
-
-        camera.position.z = 20;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
-</body>
-</html>
-from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/simulation')
-def simulation():
-    # Add logic for handling the simulation, passing data to the frontend
-    return render_template('simulation.html')
-
-if __name__ == "__main__":
-    app.run(debug=True)
